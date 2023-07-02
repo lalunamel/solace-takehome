@@ -11,7 +11,9 @@ app.use(express.json())
 
 const notes = {}
 
-// app.use(express.static(path.resolve(__dirname, '../frontend/build/')))
+if(process.env.PROD) {
+  app.use(express.static(path.resolve(__dirname, '../build/')))
+}
 
 app.get('/api/notes', (req, res) => {
   res.send(JSON.stringify(notes))

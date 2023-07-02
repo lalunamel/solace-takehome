@@ -19,7 +19,8 @@
   },
   "scripts": {
     "start-frontend": "react-scripts start",
-    "start-backend": "node ./backend/index.ts",
+    "start-backend": "node ./backend/server.ts",
+    "start-production": "PROD=true node ./backend/server.ts",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
