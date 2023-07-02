@@ -1,0 +1,99 @@
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  height: 100%;
+  width: 20%;
+  background-color: #f3f4f5;
+  padding: 15px;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.sidebar input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+}
+
+button {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  background-color: #007BFF;
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.sidebar div {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar div:hover {
+  background-color: #e2e6ea;
+}
+
+.main {
+  height: 100%;
+  width: 80%;
+  background-color: #ffffff;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.main input, .main textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+  width: 100%;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.main textarea {
+  height: 100%;
+}
+
+.main .noteHeader {
+  display: flex;
+}
+
+.main .noteHeader button {
+  width: 80px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.warning {
+  background-color: red;
+  color: white;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
