@@ -1,9 +1,14 @@
-import React, { useState, ChangeEvent, FC, useEffect, useRef } from 'react'
-import Note from './types/Note'
+import React, { useState, ChangeEvent, FC, useEffect } from 'react'
 import styles from './App.module.css'
 import LoadingSpinner from './LoadingSpinner.tsx'
 
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+}
 
+// This is a generic debounce function you can pass an ID to such that a given function will be added to it's own debounce queue based on the given ID
 let debounceTimeouts = {};
 function debounce(func, time, id) {
   const context = this, args = arguments;
@@ -23,6 +28,7 @@ const App: FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [warning, setWarning] = useState<string | null>(null)
 
+  // Fetch the list of notes to display
   useEffect(() => {
     (async () => {
       let response = await fetch('/api/notes')
@@ -34,6 +40,7 @@ const App: FC = () => {
     })()
   }, [])
 
+  // CRUD operations
   const createNewNote = async (title, content) => {
     const response = await fetch('/api/notes', {
       method: 'POST',
@@ -66,7 +73,7 @@ const App: FC = () => {
     }, 500, note.id)
   }
 
-  const handleAddNote = async () => {
+  const onAddNote = async () => {
     setLoading(true)
     const newNote = await createNewNote("New note", "Add your new notes here")
     setNotes({ ...notes, [newNote.id]: newNote })
@@ -74,13 +81,7 @@ const App: FC = () => {
     setLoading(false)
   }
 
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value)
-  }
-
-  const filteredNotes = Object.values(notes).filter(note => note.content.includes(searchTerm))
-
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (activeNoteId !== null) {
       const newNote = { ...notes[activeNoteId], title: e.target.value }
       setNotes({ ...notes, [activeNoteId]: newNote })
@@ -92,7 +93,7 @@ const App: FC = () => {
     }
   }
 
-  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const onContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (activeNoteId !== null) {
       const newContent = e.target.value
       const newNote = { ...notes[activeNoteId], content: newContent }
@@ -113,7 +114,7 @@ const App: FC = () => {
     }
   }
 
-  const handleDeleteNote = () => {
+  const onDeleteButtonClicked = () => {
     if (activeNoteId !== null) {
       (async () => {
         const response = await fetch('/api/notes', {
@@ -135,13 +136,19 @@ const App: FC = () => {
     }
   }
 
+  // Search
+  const onSearchQueryUpdated = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value)
+  }
+
+  const filteredNotes = Object.values(notes).filter(note => note.content.includes(searchTerm))
   return (
     <div className={styles.app}>
       {loading ? <LoadingSpinner /> : null}
       {warning && <div className={styles.warning}>{warning}</div>}
       <div className={styles.sidebar}>
-        <input type="text" placeholder="Search" value={searchTerm} onChange={handleSearch} />
-        <button onClick={handleAddNote}>New Note</button>
+        <input type="text" placeholder="Search" value={searchTerm} onChange={onSearchQueryUpdated} />
+        <button onClick={onAddNote}>New Note</button>
         {filteredNotes.map((note: Note) => (
           <div key={note.id} onClick={() => setActiveNoteId(note.id)}>
             {note.title || "(Note)"}
@@ -157,14 +164,14 @@ const App: FC = () => {
                 type="text"
                 placeholder="Title"
                 value={notes[activeNoteId].title}
-                onChange={handleTitleChange}
+                onChange={onTitleChange}
               />
-              <button onClick={handleDeleteNote}>Delete</button>
+              <button onClick={onDeleteButtonClicked}>Delete</button>
             </div>
             <textarea
               placeholder="Content"
               value={notes[activeNoteId].content}
-              onChange={handleContentChange}
+              onChange={onContentChange}
             />
           </>
         )}

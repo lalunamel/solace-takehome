@@ -23,7 +23,8 @@
     "start-production": "PROD=true node ./backend/server.ts",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start": "npm run start-production"
   },
   "eslintConfig": {
     "extends": [
